@@ -10,14 +10,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" >
-          <a class="nav-link"  :class="{ active: isActive}" @click.prevent="change_home() " href="javascript:void(0)" >Home <span class="sr-only"></span></a>
+          <a class="nav-link"  :class="{ active: !isActive}" @click.prevent="change_write() " href="javascript:void(0)" >Home <span class="sr-only"></span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#"></a>
         </li>
         
         <li class="nav-item" >
-          <a class="nav-link "  :class="{ active: !isActive}"  @click.prevent="change_write()" href="javascript:void(0)">Write</a>
+          <a class="nav-link "  :class="{ active: isActive}"  @click.prevent="change_home()" href="javascript:void(0)">Write</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -49,7 +49,6 @@ return{
 
 
     },  change_home() {
-      // eslint-disable-next-line vue/no-mutating-props
       this.isActive=true;
       this.$emit("update_active",this.isActive);
 

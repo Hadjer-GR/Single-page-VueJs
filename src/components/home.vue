@@ -3,8 +3,8 @@
   
  <navBar  Active_page="Active_page" @update_active="update_active_page" @click.prevent="get_news()" ></navBar>
  <div class="container_task">
-   <news  v-if="news && Active_page" v-bind:list_news="news"  ></news>
-   <write v-if="!Active_page"></write>
+   <news  v-if="news && !Active_page" v-bind:list_news="news" @update_news="update_news"  ></news>
+   <write v-if="Active_page"></write>
  </div>
 </template>
 <script>
@@ -22,13 +22,11 @@ export default {
     },data(){
         return{
             news:[],
-            Active_page:false
-
+            Active_page:false,
         }
        
-    },methods: {
-       
-        async get_news(){
+    },methods:{
+    async get_news(){
            
            const response = await axios.get("news");
            this.news=response.data;
@@ -42,6 +40,7 @@ export default {
               const response = axios.delete(`news/${id}`).then((resp) => {
               console.log(resp);
              this.news.splice(index,1);
+               
             
 
             }).catch(error => {
@@ -51,7 +50,27 @@ export default {
            console.log(response);
 
            
-        }
+        },
+    async delete_comment(id,index1,index2){
+    
+     const response=await  axios.delete(`comments/${id}`).then((resp) => {
+    // update comments 
+     this.news[index1].comment.splice(index2,1);
+        console.log(resp);
+    
+
+   }).catch(error => {
+console. error(error);
+ });
+    console.log( response);
+
+  
+},
+update_comments(){
+    const update_news=this.get_news();
+    console.log("-----------------------------");
+    console.log(update_news);
+}
     }
 }
 
