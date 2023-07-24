@@ -1,8 +1,8 @@
 <template>
    <div>
-      <form style="margin-left: 20px; right: 0; width: 70%!important;" @submit.prevent="this.$parent.storeComment(id,content)">
+      <form style="margin-left: 20px; right: 0; width: 70%!important;" @submit.prevent="this.$parent.storeComment(id,content) &&  empty_content()">
   <div class="form-group write_comment" >
-    <textarea  class="form-control" v-model.lazy.trim="content" ></textarea>
+    <textarea  class="form-control"  v-model.lazy.trim="content" ></textarea>
   </div>
   <div style="position: relative;">
     <button  type="submit" class="btn btn-primary btn_post_comment" >Post Comment</button>
@@ -22,8 +22,12 @@ export default {
       return{
      content:"",
      id:this.news_id
-   }
-   }
+   }},methods: {
+      empty_content(){
+        this.content="";
+      }
+   },
+   
 }
 </script>
 
