@@ -3,7 +3,7 @@
 <template>
 <div class="row">
      <!-- eslint-disable-next-line vue/require-v-for-key -->
-  <div :v-if="list_news" v-for="item in list_news" class="col-sm-6">
+  <div :v-if="list_news" v-for="item,index in list_news" class="col-sm-6" :key="index">
     <div   class="card" >
 
       <div   class="card-body">
@@ -12,7 +12,7 @@
         <div style="position: relative;">
        <a href="javascript:void(0)" class="btn btn-primary" style="margin-right:30px !important;">Read More</a>
        <div dir="rtl" style="position: absolute; right: 0px; top: 0;">
-        <a href="javascript:void(0)" class="btn " ><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
+        <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_news(item.id,index)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
         <a href="javascript:void(0)" class="btn " ><i class='bx bxs-edit-alt btn-comnent' style='color:#f4d160; font-size: 25px;' ></i></a>
         <a href="javascript:void(0)" class="btn" ><i class='bx bx-comment btn-comnent' style='color:#262424;font-size: 25px;'  ></i></a>
 
@@ -22,7 +22,7 @@
       </div>
 
     </div>
-   <div style="margin-left: 10px; color: #454242a7
+   <div style="margin-left: 10px;rgba(40, 39, 39, 0.655)454242a7
   ;">
     <p class="card-text" >Updated_at : {{ item.updated_at }}</p>
    </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+
 export default {
    props:["list_news"],
    data(){
@@ -40,7 +41,6 @@ export default {
      list_of_news:this.list_news
     }
    }
-
 }
 console.log("hi");
 </script>

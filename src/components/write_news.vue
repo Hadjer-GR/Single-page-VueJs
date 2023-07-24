@@ -28,6 +28,7 @@ import axios from "axios";
         }
     },methods: {
         async insert_article(){
+          console.log(localStorage.getItem("token"));
           const  dd={
             'title':   this.title,
             'content':  this.content
