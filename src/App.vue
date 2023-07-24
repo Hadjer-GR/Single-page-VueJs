@@ -1,26 +1,70 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+<router-view></router-view>
+
+ 
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+
+
+import axios from "axios";
+
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  components:{},
+    created() {
+      console.log("created");
+    },
+  methods: {
+      async getData(){
+      
+      axios.get("http://exam.tlancer.net/api/news")
+      .then(res => {
+        this.usersList = res.data;
+        console.log(this.usersList)
+        
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+      })
+      .catch(error => {
+        console.log(error)
+         // Manage errors if found any
+      })
+
+      }
+    },
+    data(){
+    return{
+  active_page:0,
+  pages:[
+ {
+    link: {text:"Home",url:"home.html"},
+    Content: "this is home page",
+    title:"Home"
+
+ },{
+    link:{text:"Featurs",url:"Featurs.html"},
+    Content: "this is Featurs page",
+    title:"Featurs"
+ },{
+    link:{text:"Pricing",url:"Pricing.html"},
+    Content: "this is Pricing page",
+    title:"Pricing"
+ },
+ {
+    link:{text:"Disabled",url:"disabled.html"},
+    Content: "this is Disabled page",
+    title:"Disabled"
+ }
+
+
+
+  ],
+
+  new_item:"" };
+
 }
-</style>
+}
+
+</script>

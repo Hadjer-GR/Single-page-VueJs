@@ -1,4 +1,9 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import {createApp} from 'vue';
+import App from './App.vue';
+import router from "./routes";
+import "./axios";
 
-createApp(App).mount('#app')
+// use App as the options object
+const app=createApp(App);
+app.use(router);
+app.mount("#app");
