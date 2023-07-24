@@ -23,22 +23,26 @@
 
     </div>
     
-<!--  comment div -->
+<!-- show comments  -->
+    <div class="comments">
 
+    
     <div class="row row_comment"  v-for="comment,index2 in item.comment"  :key="index2" >
       
-        <div class="card_comment">
+        <div class="card_comment" >
           <div class="content_comment">
      <div class="comment"><p>{{comment.content}}</p></div>
      <div class="trush">
       <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_comment(comment.id,index,index2)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
-     </div>
+    
+    </div>
           </div>
             
         </div>
            
     </div>
-  
+  </div>
+  <br>
   <!-- Write Comment -->
   <comment v-if="write_comment &&news_id==index" :news_id="item.id"></comment>
    <div style="margin-left: 10px;rgba(40, 39, 39, 0.655)454242a7
@@ -68,9 +72,8 @@ export default {
    },methods: {
    writeComment(id,index){
       this.write_comment=!this.write_comment;
-      
        this.news_id=index;
-    
+    console.log(localStorage.getItem("token"));
      
      },
      async storeComment(id,comment_w){
@@ -135,6 +138,9 @@ console.log("hi");
   position: relative;
   flex-basis: 80%;
 }
+.trush{
+ position: relative !important;
+}
 .btn-comnent{
  
     transition: all 0.2s;
@@ -142,6 +148,11 @@ console.log("hi");
 }
 .btn-comnent:hover{
     transform: scale(1.1);
+}
+.comments{
+  position: relative;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 .row_comment{
   position: relative;
@@ -152,7 +163,7 @@ console.log("hi");
   flex-wrap: nowrap !important;
   margin-bottom: 5px;
   max-height: 250px !important;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   margin-left: 20px;
   
 }
@@ -198,10 +209,16 @@ margin-bottom: 5px;
 
 .card_comment:hover{
     color: #ffffff;
-
 }
 
+.comment {
+  width: 80% !important;
+
+}
 .card_comment p{
     padding: 5px ;
+    width: 100% !important;
+    overflow: hidden !important;
+    word-wrap: break-word !important;
 }
 </style>
