@@ -1,5 +1,5 @@
 <template>
-    <h2 v-if="right" style="text-align: center; color: rgb(30, 213, 70);" id="secsussful"> <span><i class='bx bx-check' style='color:#1ed546; font-size: 30px !important;'  ></i></span> Complet insert</h2>
+    <h2 v-if="right" style="text-align: center; color: rgb(30, 213, 70);" id="secsussful"> <span><i class='bx bx-check' style='color:#1ed546; font-size: 30px !important;'  ></i></span> The article has been published successfully!</h2>
     <div class="container_write">
    <form @submit.prevent="insert_article()" style="margin-top: 2%;margin-bottom: 2%;" >
   <div class="form-group">

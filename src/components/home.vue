@@ -26,13 +26,13 @@ export default {
         }
        
     },methods: {
+       
         async get_news(){
            
-        const response = await axios.get("news");
-
-        this.news=response.data;
-        console.log(response);
-
+           const response = await axios.get("news");
+   
+           this.news=response.data;
+           console.log(response);
         },
         update_active_page(v){
             this.Active_page=v;
