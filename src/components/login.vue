@@ -57,7 +57,7 @@
                 required
               />
             </div>
-            <p class="link-danger">{{ error }}</p>
+            <p class="link-danger" style="color: red !important;">{{ error }}</p>
             <div class="d-flex justify-content-between align-items-center">
               <!-- Checkbox -->
               <div class="form-check mb-0">

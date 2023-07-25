@@ -48,7 +48,7 @@
             <input type="password" id="form3Example5" class="form-control form-control-lg"
               placeholder="Reapt your password"  v-model.lazy.trim="password_confirmation" required />
           </div>
-          <p class="link-danger" >{{ error }}</p>
+          <p class="link-danger" style="color: red !important;" >{{ error }}</p>
 
       
           <div class="text-center text-lg-start mt-4 pt-2">
