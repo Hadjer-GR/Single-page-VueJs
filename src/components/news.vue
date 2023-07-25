@@ -14,7 +14,7 @@
        <div dir="rtl" style="position: absolute; right: 0px; top: 0;">
         <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_news(item.id,index)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
         <a href="javascript:void(0)" class="btn " ><i class='bx bxs-edit-alt btn-comnent' style='color:#f4d160; font-size: 25px;' ></i></a>
-        <a href="javascript:void(0)" class="btn" @click.prevent="writeComment(item.id,index)" ><i class='bx bx-comment btn-comnent' style='color:#262424;font-size: 25px;'  ></i></a>
+        <a href="javascript:void(0)" class="btn" @click.prevent=" writeComment('write',item.id,index)"><i class='bx bx-comment btn-comnent' style='color:#262424;font-size: 25px;'  ></i></a>
 
        </div>
         </div>
@@ -33,6 +33,8 @@
           <div class="content_comment">
      <div class="comment"><p>{{comment.content}}</p></div>
      <div class="trush">
+      <a href="javascript:void(0)" class="btn " @click.prevent="writeComment('edite',item.id,index)" ><i class='bx bxs-edit-alt btn-comnent' style='color:black; font-size: 25px;' ></i></a>
+
       <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_comment(comment.id,index,index2)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
     
     </div>
@@ -44,13 +46,18 @@
   </div>
   <br>
   <!-- Write Comment -->
-  <comment v-if="write_comment &&news_id==index" :news_id="item.id"></comment>
+  <comment v-if="write_comment  && news_id==index" :news_id="item.id" v-model="get_edite_comments" ></comment>
+  <!-- edite comment -->
+  <!-- <comment v-if="edite_comments  && news_id==index" :edite_comment="edite_comments" :news_id="item.id"  ></comment> -->
+
+  
    <div style="margin-left: 10px;rgba(40, 39, 39, 0.655)454242a7
   ;">
-   </div>
+  <!--  date -->
 
   </div>
   
+</div>
 </div>
 </template>
 
@@ -60,6 +67,7 @@ import axios from "axios";
 
 export default {
    props:["list_news"],
+
    components:{
     comment
    },
@@ -67,13 +75,27 @@ export default {
     return{
      list_of_news:this.list_news,
      write_comment:false,
-     news_id:-1
+    editeComment:false,
+     
+     comment:{}
     }
    },methods: {
-   writeComment(id,index){
-      this.write_comment=!this.write_comment;
+   writeComment(type,id,index){
+    if(type=="write"){
+      this.editeComment=false;
+     this.write_comment=!this.write_comment;
        this.news_id=index;
-    console.log(localStorage.getItem("token"));
+       console.log(id,index);
+    }else{
+      this.editeComment=true;
+     this.write_comment=!this.write_comment;
+       this.news_id=index;
+    }
+    
+
+    console.log(this.editeComment);
+    
+    
      
      },
      async storeComment(id,comment_w){
@@ -97,10 +119,26 @@ export default {
 
   console.log(response);
 
+     }, show_comment (id,index){
+   this.comment={
+    id:id,
+    comment:comment,
+    index:index,
+    // index2:index2
+   }
+   console.log(id,index);
+      // this.edite_comment=true;
+      // this.write_comment=false;
+      //  this.news_id=index;
+
+
+      // update comments Section
+    //  this.$parent.update_comments();
+     },get_edite_comment(){
+       return this.editeComment;
      }
    },
 }
-console.log("hi");
 </script>
 <style >
 .row{
@@ -140,6 +178,8 @@ console.log("hi");
 }
 .trush{
  position: relative !important;
+ display: flex;
+ flex-direction: row !important;
 }
 .btn-comnent{
  
