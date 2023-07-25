@@ -12,7 +12,7 @@
         <h5 class="card-title">{{ item.title}}</h5>
         <p class="card-text" style="overflow: hidden;">{{ item.content }}</p>
         <div style="position: relative;">
-       <a href="javascript:void(0)" class="btn btn-primary" style="margin-right:30px !important;">Read More</a>
+       <a href="javascript:void(0)" class="btn btn-primary" style="margin-right:30px !important;" @click.prevent="read_more(index)">Read More</a>
        <div dir="rtl" style="position: absolute; right: 0px; top: 0;">
         <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_news(item.id,index)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
         <a href="javascript:void(0)" class="btn " @click.prevent="edite_news(item.id)" ><i class='bx bxs-edit-alt btn-comnent' style='color:#f4d160; font-size: 25px;' ></i></a>
@@ -62,11 +62,16 @@
 </div>
 
 </div>
-<div   :class="{transporant_back: update_new}">
+<div   :class="{transporant_back: update_new || read}">
 
 </div>
 <div   class="pop_update_news">
 <write v-if="update_new" :news_id="select_news" ></write>
+</div>
+<div v-if="read" class="pop_update_news" style="background-color: #ffff !important;" >
+  <h2 >{{ this.list_news[this.select_news].title }}</h2>
+  <p  style="width: 100% !important; word-wrap: break-word !important;">{{ this.list_news[this.select_news].content }}</p>
+  <button class="btn btn-primary" @click.prevent="cancel_update_news()"> back</button>
 </div>
 
 </template>
@@ -90,7 +95,8 @@ export default {
     comment_id:0,
     comment:"",
     update_new:false,
-    select_news:0
+    select_news:0,
+    read:false,
     
     }
    },methods: {
@@ -170,6 +176,7 @@ export default {
      },
      cancel_update_news(){
       this.update_new=false;
+      this.read=false;
        this.select_news=0;
      },
       async UpdateNews(id,title_update,content_update){
@@ -194,7 +201,12 @@ export default {
   })
      
 
-     }
+     }, read_more(index){
+      this.select_news=index;
+      console.log("--------------index--------")
+      console.log(this.select_news);
+       this.read=true;
+     },
    },
 }
 </script>
@@ -325,6 +337,8 @@ margin-bottom: 5px;
   height: auto;
   padding: 20px;
   top: 0%;
+  
+
   border-radius: 10px;
   background-color:none;
   left: 15%;
