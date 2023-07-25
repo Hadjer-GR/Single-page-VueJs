@@ -14,7 +14,7 @@
        <div dir="rtl" style="position: absolute; right: 0px; top: 0;">
         <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_news(item.id,index)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
         <a href="javascript:void(0)" class="btn " ><i class='bx bxs-edit-alt btn-comnent' style='color:#f4d160; font-size: 25px;' ></i></a>
-        <a href="javascript:void(0)" class="btn" @click.prevent=" writeComment('write',item.id,index)"><i class='bx bx-comment btn-comnent' style='color:#262424;font-size: 25px;'  ></i></a>
+        <a href="javascript:void(0)" class="btn" @click.prevent=" writeComment('write',item.id,index,0)"><i class='bx bx-comment btn-comnent' style='color:#262424;font-size: 25px;'  ></i></a>
 
        </div>
         </div>
@@ -33,7 +33,7 @@
           <div class="content_comment">
      <div class="comment"><p>{{comment.content}}</p></div>
      <div class="trush">
-      <a href="javascript:void(0)" class="btn " @click.prevent="writeComment('edite',item.id,index)" ><i class='bx bxs-edit-alt btn-comnent' style='color:black; font-size: 25px;' ></i></a>
+      <a href="javascript:void(0)" class="btn " @click.prevent="writeComment('edite',item.id,index,comment.id)" ><i class='bx bxs-edit-alt btn-comnent' style='color:black; font-size: 25px;' ></i></a>
 
       <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_comment(comment.id,index,index2)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
     
@@ -46,7 +46,7 @@
   </div>
   <br>
   <!-- Write Comment -->
-  <comment v-if="write_comment  && news_id==index" :news_id="item.id" v-model="get_edite_comments" ></comment>
+  <comment v-if="write_comment  && news_id==index" :comment_id="comment_id" :news_id="item.id" v-model="get_edite_comments"  ></comment>
   <!-- edite comment -->
   <!-- <comment v-if="edite_comments  && news_id==index" :edite_comment="edite_comments" :news_id="item.id"  ></comment> -->
 
@@ -76,17 +76,20 @@ export default {
      list_of_news:this.list_news,
      write_comment:false,
     editeComment:false,
-     
-     comment:{}
+    comment_id:0,
+    comment:""
+    
     }
    },methods: {
-   writeComment(type,id,index){
+   writeComment(type,id,index,id_comment){
+    this.comment_id=id_comment;
     if(type=="write"){
       this.editeComment=false;
      this.write_comment=!this.write_comment;
        this.news_id=index;
        console.log(id,index);
     }else{
+      this.comment_id=id_comment;
       this.editeComment=true;
      this.write_comment=!this.write_comment;
        this.news_id=index;
@@ -119,22 +122,8 @@ export default {
 
   console.log(response);
 
-     }, show_comment (id,index){
-   this.comment={
-    id:id,
-    comment:comment,
-    index:index,
-    // index2:index2
-   }
-   console.log(id,index);
-      // this.edite_comment=true;
-      // this.write_comment=false;
-      //  this.news_id=index;
-
-
-      // update comments Section
-    //  this.$parent.update_comments();
      },get_edite_comment(){
+      
        return this.editeComment;
      }
    },
