@@ -1,7 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
+
 <div class="row">
+
      <!-- eslint-disable-next-line vue/require-v-for-key -->
   <div :v-if="list_news" v-for="item,index in list_news" class="col-sm-6" :key="index">
     <div   class="card" >
@@ -13,7 +15,7 @@
        <a href="javascript:void(0)" class="btn btn-primary" style="margin-right:30px !important;">Read More</a>
        <div dir="rtl" style="position: absolute; right: 0px; top: 0;">
         <a href="javascript:void(0)" class="btn " @click.prevent="this.$parent.delete_news(item.id,index)"><i class='bx bx-trash-alt btn-comnent' style='color:#f02525;font-size: 25px;'  ></i></a>
-        <a href="javascript:void(0)" class="btn " ><i class='bx bxs-edit-alt btn-comnent' style='color:#f4d160; font-size: 25px;' ></i></a>
+        <a href="javascript:void(0)" class="btn " @click.prevent="edite_news(item.id)" ><i class='bx bxs-edit-alt btn-comnent' style='color:#f4d160; font-size: 25px;' ></i></a>
         <a href="javascript:void(0)" class="btn" @click.prevent=" writeComment('write',item.id,index,0)"><i class='bx bx-comment btn-comnent' style='color:#262424;font-size: 25px;'  ></i></a>
 
        </div>
@@ -58,18 +60,27 @@
   </div>
   
 </div>
+
 </div>
+<div   :class="{transporant_back: update_new}">
+
+</div>
+<div   class="pop_update_news">
+<write v-if="update_new" :news_id="select_news" ></write>
+</div>
+
 </template>
 
 <script>
 import comment from './write_comment.vue';
 import axios from "axios";
+import write from './write_news.vue';
 
 export default {
    props:["list_news"],
 
    components:{
-    comment
+    comment,write
    },
    data(){
     return{
@@ -77,7 +88,9 @@ export default {
      write_comment:false,
     editeComment:false,
     comment_id:0,
-    comment:""
+    comment:"",
+    update_new:false,
+    select_news:0
     
     }
    },methods: {
@@ -97,9 +110,6 @@ export default {
     
 
     console.log(this.editeComment);
-    
-    
-     
      },
      async storeComment(id,comment_w){
        const comment={
@@ -108,11 +118,10 @@ export default {
        };
        console.log(id);
        console.log(comment_w);
-       const response = await axios.post('comments',comment).then((resp) => { 
+       const response = await axios.post('comments',comment).then(() => { 
         // update comments Section
 
         this.$parent.update_comments();
-        console.log(resp);
             
    }).catch((err) => {
    console.log(err)
@@ -122,9 +131,69 @@ export default {
 
   console.log(response);
 
+     },
+     async UpdateComment(id,comment_id,update_content){
+       const comment={
+        content:update_content,
+        news_id:id
+       
+       };
+       console.log(update_content);
+     this.editeComment=false;
+     console.log(comment_id);
+       await axios.put(`comments/${comment_id}`,comment).then((resp) => { 
+        console.log("update---------------")
+       console.log(update_content);
+        // update comments Section
+        console.log(resp);
+        this.$parent.update_comments();
+        
+            
+   }).catch((err) => {
+   console.log(err)
+   // this.error=err.response.data.message;
+  })
+     
+
      },get_edite_comment(){
       
        return this.editeComment;
+     },get_update_news(){
+      return this.update_new;
+     },
+     edite_news(id){
+      this.select_news=id;
+       this.update_new=true;
+     },
+     get_select_news_id(){
+      return this.select_news;
+     },
+     cancel_update_news(){
+      this.update_new=false;
+       this.select_news=0;
+     },
+      async UpdateNews(id,title_update,content_update){
+       const news={
+        title:title_update,
+        content:content_update
+       
+       };
+       this.update_new=false;
+       
+        await axios.put(`news/${id}`,news).then((resp) => { 
+        console.log("update---------------")
+        console.log(resp);
+        // update news section
+        console.log(resp);
+        this.$parent.get_news();
+        
+            
+   }).catch((err) => {
+   console.log(err)
+   // this.error=err.response.data.message;
+  })
+     
+
      }
    },
 }
@@ -249,5 +318,31 @@ margin-bottom: 5px;
     width: 100% !important;
     overflow: hidden !important;
     word-wrap: break-word !important;
+}
+.pop_update_news{
+  position: absolute;
+  z-index: 4;
+  height: auto;
+  padding: 20px;
+  top: 0%;
+  border-radius: 10px;
+  background-color:none;
+  left: 15%;
+  width: 80%;
+}
+.pop_update_news .container_write{
+  background-color: #ffff;
+  padding: 15px;
+}
+.transporant_back{
+  position: absolute;
+  z-index: 2;
+  width: 100vw;
+  top: -19%;
+  height: 200vh;
+  overflow: hidden;
+  opacity: 0.9;
+  background: #f4d160ce;
+
 }
 </style>

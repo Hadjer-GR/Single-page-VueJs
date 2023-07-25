@@ -4,7 +4,7 @@
  <navBar  Active_page="Active_page" @update_active="update_active_page" @click.prevent="get_news()" ></navBar>
  <div class="container_task">
    <news  v-if="news && !Active_page" v-bind:list_news="news" @update_news="update_news"  ></news>
-   <write v-if="Active_page"></write>
+   <write v-if="Active_page" :news_id="0"></write>
  </div>
 </template>
 <script>
@@ -67,9 +67,9 @@ console. error(error);
   
 },
 update_comments(){
-    const update_news=this.get_news();
+    this.get_news();
     console.log("-----------------------------");
-    console.log(update_news);
+    // console.log(update_news);
 }
     }
 }

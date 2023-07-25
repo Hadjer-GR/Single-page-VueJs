@@ -117,6 +117,7 @@ export default {
         .post("login", user)
         .then((resp) => {
           this.error = "";
+          console.log(resp.data)
           localStorage.setItem("token", resp.data.token);
           this.$router.push("/news");
         })

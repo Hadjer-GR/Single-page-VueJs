@@ -4,6 +4,8 @@
       style="margin-left: 20px; right: 0; width: 70% !important"
       @submit="get_submit()"
     >
+    
+   
       <div class="form-group write_comment">
         <textarea
           v-if="edite_comments"
@@ -21,19 +23,20 @@
         <button
           v-if="edite_comments"
           class="btn btn-primary btn_post_comment"
-          @click="get_edite()"
+        
         >
           Update
         </button>
         <button
           v-else
           class="btn btn-primary btn_post_comment"
-          @click="get_edite()"
+          
         >
           Publish
         </button>
       </div>
     </form>
+    
   </div>
 </template>
 
@@ -58,14 +61,19 @@ export default {
       this.content = "";
     },
     get_submit() {
-      if (!this.edite_comment) {
-        this.$parent.storeComment(this.id, this.content);
-        this.empty_content();
-        console.log("publish");
+      if (this.edite_comments) {
+       
+        console.log('--------update chiled----------');
+        this.edite_comments=false;
+       this.$parent.UpdateComment(this.id,this.id_comment,this.comment) ; 
       } else {
-        this.$parent.edie_comment(this.content);
-        console.log(this.submit_url);
-        console.log("edite");
+        console.log("------------publish---------------");
+     this.$parent.storeComment(this.id, this.content);
+       this.empty_content();
+      
+
+        //this.$parent.
+      //  this.$parent.UpdateComment(this.id,this.id_comment,this.comment) ;    
       }
     },
     close_edite() {
